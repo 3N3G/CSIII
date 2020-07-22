@@ -22,10 +22,10 @@ public class RectangleTile extends Tile{
 	 */
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.drawRect(getX(), getY(), getWidth(), getHeight());
       g.setColor(getColor());
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
+      g.setColor(Color.BLACK);
+		g.drawRect(getX(), getY(), getWidth(), getHeight());
 	}
 
 	/**
