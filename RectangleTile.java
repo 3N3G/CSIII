@@ -1,3 +1,9 @@
+// Gene Yang
+// Assignment 11 RectangleTile.java
+// Creating the class for a Rectangle Tile, which has all the functions inherited from Tile
+// CSIII
+// 7/21/20
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -7,11 +13,11 @@ public class RectangleTile extends Tile{
 	 * Because the rectangle is the same as it's border, we can directly call super
 	 * without any changes.
 	 * 
-	 * @param x
-	 * @param y
-	 * @param w
-	 * @param h
-	 * @param c
+	 * @param x x coordinate of top left corner
+	 * @param y y coordinate of top left corner
+	 * @param w width of rectangle
+	 * @param h height of rectangle
+	 * @param c color of rectangle
 	 */
 	public RectangleTile(int x, int y, int w, int h, Color c) {
 		super(x, y, w, h, c);
@@ -19,13 +25,15 @@ public class RectangleTile extends Tile{
 
 	/**
 	 * Draws the given rectangle. For some reason, only draws half the border
+    * 
+    * @param the Graphics that are used to draw the rectangle
 	 */
 	@Override
 	public void draw(Graphics g) {
       g.setColor(getColor());
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
+      g.fillRect(getX(), getY(), getWidth(), getHeight());
       g.setColor(Color.BLACK);
-		g.drawRect(getX(), getY(), getWidth(), getHeight());
+      g.drawRect(getX(), getY(), getWidth(), getHeight());
 	}
 
 	/**
@@ -33,8 +41,8 @@ public class RectangleTile extends Tile{
 	 * greater then the x value of the leftmost side, and less than the rightmost side,
 	 * and similarly for y value.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x x value of the point
+	 * @param y y value of the point
 	 * @return whether the rectangle contains the point with that xy value.
 	 */
 	@Override
