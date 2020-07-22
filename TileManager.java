@@ -1,6 +1,6 @@
 // Gene Yang
 // Assignment 11 TileManager.java
-// Creating the functions that 
+// Creates the functions that modify a list of tiles
 // CSIII
 // 7/21/20
 
@@ -56,7 +56,7 @@ public class TileManager {
 	 */
 	public void raise (int x, int y) {
       if (hasHit(x,y)) {
-         Tile tileToRaise = getTopOrBottomTile(x,y,true);
+         Tile tileToRaise = getTopTile(x,y);
          tileList.remove(tileToRaise);
          tileList.add(tileList.size(), tileToRaise);
       }
@@ -66,12 +66,12 @@ public class TileManager {
 	 * Takes the top tile that includes the given xy point, and brings it to the bottom of all tiles.
 	 * Does this by moving it to the bottom of the tileList.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x x coordinate of the mouse click point
+	 * @param y y coordinate of the mouse click point
 	 */
 	public void lower (int x, int y) {
 		if (hasHit(x,y)) {
-         Tile tileToLower = getTopOrBottomTile(x,y,true);
+         Tile tileToLower = getTopTile(x,y);
          tileList.remove(tileToLower);
          tileList.add(0, tileToLower);
       }
@@ -81,12 +81,12 @@ public class TileManager {
 	 * Deletes the top tile that includes the given xy point.
 	 * Does nothing if there is no tile there.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x x coordinate of the mouse click point
+	 * @param y y coordinate of the mouse click point
 	 */
 	public void delete(int x, int y) {
 		if (hasHit(x,y)) {
-         Tile tileToDelete = getTopOrBottomTile(x,y,true);
+         Tile tileToDelete = getTopTile(x,y);
          tileList.remove(tileToDelete);
       }
 	}
@@ -94,8 +94,8 @@ public class TileManager {
 	/**
 	 * Deletes every tile that includes the given xy point.
 	 * 
-	 * @param x
-	 * @param y
+	 * @param x x coordinate of the mouse click point
+	 * @param y y coordinate of the mouse click point
 	 */
 	public void deleteAll(int x, int y) {
 		while (hasHit(x,y)) {
@@ -107,9 +107,10 @@ public class TileManager {
 	 * Shuffles all the tiles to within a certain boundary.
 	 * Used to make sure that all the new tile positions 
 	 * are within the borders of the drawing window.
+    * Shuffles within (0,0) and (width, height).
 	 * 
-	 * @param width
-	 * @param height
+	 * @param width the width of the drawing window
+	 * @param height the height of the drawing window
 	 */
 	public void shuffle(int width, int height) {
       System.out.println("Start shuffle " + width + ", " + height);
@@ -125,51 +126,27 @@ public class TileManager {
 	}
    
 	/**
-	 * Gets the very top or very bottom tile at a certain xy value
-	 * Technically doesn't need to get bottom ever, but just in case I wrote it,
-	 * as they are very similar
+	 * Gets the very top tile at a certain xy value
 	 * 
 	 * @param x x coordinate of mouse click
 	 * @param y y coordinate of mouse click
-	 * @param isTop
-	 * @return
+	 * @return Top tile if it exists, otherwise null
 	 */
-   // boolean true to get top tile, false to get bottom tile
-   private Tile getTopOrBottomTile(int x, int y, boolean isTop) {
-      Tile top;
-      if (isTop) {
-         top = tileList.get(tileList.size()-1); 
-         // Even if this tile isn't on the mouse point, moving it to the top doesn't matter.
-         // However if you want to log actions done, this will show as a move even though nothing
-         // changes.
-         for (Tile t : tileList) {
-            if (t.isHit(x,y)) {
-               top = t;
-            }
-         }
-      } else {
-         top = tileList.get(0);
-         
-         for (Tile t : reverseOrder(tileList)) {
-            if (t.isHit(x,y)) {
-               top = t;
-            }
+   private Tile getTopTile(int x, int y) {
+      
+      for (int i = tileList.size()-1;i >= 0; i--) {
+         if (tileList.get(i).isHit(x,y)) {
+            return tileList.get(i);
          }
       }
-      
-      if (hasHit(x,y)) {
-         return top;
-      }
-      
-      return null; // should never return this if you check hasHit() before using this
-        
+      return null;
    }
    
    /**
     * Given a point, returns if there are tiles on that point
     * 
-    * @param x
-    * @param y
+    * @param x x coordinate of the point
+    * @param y y coordinate of the point
     * @return Whether any tile is hit by that xy value
     */
    private boolean hasHit(int x, int y) {
@@ -182,18 +159,4 @@ public class TileManager {
       return hasHit;
    }
    
-   /**
-    * Reverses the order of an ArrayList of Tiles. Used to easily get the bottom tile 
-    * in a mouse click.
-    * 
-    * @param orig
-    * @return
-    */
-   private ArrayList<Tile> reverseOrder(ArrayList<Tile> orig) {
-      ArrayList<Tile> reversed = new ArrayList<>();
-      for (Tile s : orig) {
-         reversed.add(0,s);
-      }
-      return reversed;
-   }
 }
