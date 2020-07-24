@@ -1,3 +1,10 @@
+// Gene Yang
+// Assignment 12 Melody.java
+// Creates functions to modify and 
+// CSIII
+// 7/21/20
+
+
 import java.util.*;
 
 public class Melody {
@@ -39,7 +46,7 @@ public class Melody {
 	 * Returns the toString of the song
 	 * Each line includes the toString of a Note
 	 * 
-	 * @return
+	 * @return toString of the song
 	 */
 	public String toString() {
 		String string = "";
@@ -52,7 +59,6 @@ public class Melody {
 	/**
 	 * Changes the tempo of the song by a certain rate
 	 * 
-	 * 
 	 * @param tempo amount to change the speed by
 	 */
 	public void changeTempo(double tempo) {
@@ -61,6 +67,9 @@ public class Melody {
 		}
 	}
 	
+	/**
+	 * Reverses the song, or the Queue of its notes
+	 */
 	public void reverse() {
 		Stack<Note> newStack = new Stack<>();
 		while (!song.isEmpty()) {
@@ -71,6 +80,11 @@ public class Melody {
 		}
 	}
 	
+	/**
+	 * Appends another song to the end of this one
+	 * 
+	 * @param other Song to append
+	 */
 	public void append(Melody other) {
 		Queue<Note> songToAppend = other.song;
 		while (!songToAppend.isEmpty()) {
@@ -78,6 +92,9 @@ public class Melody {
 		}
 	}
 	
+	/**
+	 * Plays the song with all the repeated parts included
+	 */
 	public void play() {
 		Queue<Note> songWithoutRepeats = removeRepeats(song);
 		for (Note s : songWithoutRepeats) {
@@ -85,6 +102,13 @@ public class Melody {
 		}
 	}
 
+	/**
+	 * Removes the repeats in a Queue of Notes by creating an additional Queue
+	 * by manually including the repeated segments
+	 * 
+	 * @param song
+	 * @return
+	 */
 	private Queue<Note> removeRepeats(Queue<Note> song) {
 		Queue<Note> copyOfSong = copySong(song);
 		Queue<Note> repeatsRemoved = new LinkedList<>();
@@ -98,7 +122,6 @@ public class Melody {
 					repeats.add(temp);
 					while (!repeats.isEmpty()) {
 						Note repeatNote = repeats.poll();
-						repeatNote.setRepeat(false);
 						repeatsRemoved.add(repeatNote);
 					}
 					duringRepeat = false;
@@ -122,23 +145,25 @@ public class Melody {
 		return repeatsRemoved;
 	}
 	
+	/**
+	 * This helper method copies the given Queue into another one.
+	 * 
+	 * @param song the Queue to copy
+	 * @return a copy of the given Queue
+	 */
 	private Queue<Note> copySong(Queue<Note> song) {
-		Stack<Note> temp = new Stack<>();
-		Stack<Note> tempReversed = new Stack<>();
+		Queue<Note> temp = new LinkedList<>();
 		Queue<Note> copy = new LinkedList<>();
-		
-		while (!song.isEmpty()) {
+		while(!song.isEmpty()) {
 			temp.add(song.poll());
 		}
-		while (!temp.isEmpty()) {
-			tempReversed.add(temp.pop());
-		}
-		while (!tempReversed.isEmpty()) {
-			Note n = tempReversed.pop();
-			song.add(n);
-			copy.add(n);
+		while(!temp.isEmpty()) {
+			Note noteToAdd = temp.poll();
+			song.add(noteToAdd);
+			copy.add(noteToAdd);
 		}
 		return copy;
+
 	}
 	
 	
