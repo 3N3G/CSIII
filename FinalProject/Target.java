@@ -9,6 +9,7 @@ public class Target {
 	private int hitCount;
 	private Graphics g;
 	
+	
 	public Target(Graphics g) {
 		x = 690;
 		y = 380;
@@ -25,7 +26,6 @@ public class Target {
 	public boolean collides(Projectile p) {
 		
 		if (this.getShape().getBounds2D().intersects(p.getShape().getBounds2D())) {
-			System.out.println("Hit");
 			hitCount++;
 			return true;
 		}
@@ -33,12 +33,10 @@ public class Target {
 	}
 	
 	/**
-	 * Draws the target when it hasn't been hit enough
-	 * 
-	 * @param g
+	 * Draws the target when it hasn't been hit three times yet
 	 */
 	public void draw() {
-		if (hitCount < 10) {
+		if (hitCount < 3) {
 			g.setColor(Color.RED);
 			g.fillRect(x, y, 20, 20);
 		}
@@ -46,7 +44,6 @@ public class Target {
 	
 	/**
 	 * Clears the Target, by drawing white over it
-	 * @param g 
 	 */
 	public void clear() {
 		g.setColor(Color.WHITE);

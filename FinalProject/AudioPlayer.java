@@ -1,8 +1,19 @@
+// Gene Yang
+// Final Assignment AudioPlayer.java
+// Plays an audio wav file from the filename
+// CSIII
+// 7/30/20
+
 import java.io.*;
 import javax.sound.sampled.*;
 
 public class AudioPlayer {
-	public void playSound(String fileName) {
+	/**
+	 * Plays a sound based on the filename. 
+	 * (By TSCHWAB on https://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java)
+	 * @param fileName
+	 */
+	public static void playSound(String fileName) {
 		try {
 		    AudioInputStream stream;
 		    AudioFormat format;
@@ -17,7 +28,7 @@ public class AudioPlayer {
 		    clip.start();
 		}
 		catch (Exception e) {
-		    
+		    System.out.println("This shouldn't work");
 		}
 	}
 }

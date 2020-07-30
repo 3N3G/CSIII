@@ -12,9 +12,18 @@ public class Projectile{
 	private double dY;
 	private boolean exists;
 	private ArrayList<Projectile> bullets = new ArrayList<>();
+	private Graphics g;
 	
+	private final int PROJECTILE_RADIUS = 10;
+	private final double DEG_TO_RAD = Math.PI/180.0; 
+	private static final String SHOT_SOUND = "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Shot.wav";
+	private static final String EXPLOSION_SOUND= "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Explosion+5.wav";
+	private final double TILE_SIZE = 100;
+	private final int PANEL_WIDTH = 800;
+	private final int PANEL_HEIGHT = 500;
 	
-	public Projectile() {
+	public Projectile(Graphics g) {
+		this.g = g;
 	}
 	
 	/**
@@ -44,9 +53,9 @@ public class Projectile{
 	 * Clears the projectile by drawing a white circle around the projectile's locatoin
 	 * @param g Graphics 
 	 */
-	public void clear(Graphics g) {
+	public void clear() {
 		g.setColor(Color.WHITE);
-		g.fillOval((int)x-11, (int)y-11, 22, 22);
+		g.fillOval((int)x-(PROJECTILE_RADIUS + 1), (int)y-(PROJECTILE_RADIUS + 1), 2*(PROJECTILE_RADIUS + 1), 2*(PROJECTILE_RADIUS + 1));
 	}
 	
 	/**
@@ -57,16 +66,15 @@ public class Projectile{
 	 * @param angle
 	 * @param power
 	 */
-	public void reset(double initX, double initY, int angle, int power, Graphics g) {
-		AudioPlayer player = new AudioPlayer();
-		player.playSound("/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Shot.wav");
-		this.clear(g);
+	public void reset(double initX, double initY, int angle, int power) {
+		AudioPlayer.playSound(SHOT_SOUND);
+		this.clear();
 		
 		this.exists = true;
 		this.x = initX;
 		this.y = initY;
-		this.dX = Math.cos((double)angle*Math.PI/180) * power / 10;
-		this.dY = Math.sin((double)angle*Math.PI/180) * power / 10;
+		this.dX = Math.cos((double)angle*DEG_TO_RAD) * power / 10;
+		this.dY = Math.sin((double)angle*DEG_TO_RAD) * power / 10;
 		while (!bullets.isEmpty()) {
 			bullets.remove(0);
 		}
@@ -79,13 +87,13 @@ public class Projectile{
 	 * @param g
 	 */
 	
-	public void draw(Graphics g) {
+	public void draw() {
 		if (exists) {
 			g.setColor(Color.BLUE);
-			g.fillOval((int)x-10, (int)y-10, 20, 20);
+			g.fillOval((int)x-PROJECTILE_RADIUS, (int)y-PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS);
 		} else {
 			g.setColor(Color.WHITE);
-			g.fillOval((int)x-10, (int)y-10, 20, 20);
+			g.fillOval((int)x-PROJECTILE_RADIUS, (int)y-PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS);
 		}
 	}
 	
@@ -104,28 +112,33 @@ public class Projectile{
 	 * @return the rectangle that bounds the circle that is the projectile
 	 */
 	public Shape getShape() {
-		return new Rectangle ((int)x-10,(int)y-10,20,20);
+		return new Rectangle ((int)x-PROJECTILE_RADIUS,(int)y-PROJECTILE_RADIUS,2*PROJECTILE_RADIUS,2*PROJECTILE_RADIUS);
 	}
 	
 	/**
 	 * Checks if the projectile has hit any walls/the ground. If it does, remove that bullet,
 	 * so it doesn't get drawn in the future, and disappears.
+	 * First, if it is in the boundary of the panel, and the tile of the terrain it's on is nonzero
+	 * meaning there is a grid tile there, then it will disappear. Otherwise, nothing happens.
+	 * 
+	 * It also plays the explosion sound, and removes the bullet and its influence after hitting 
+	 * the ground.
 	 * 
 	 * @return Whether the projectile collides with the walls
 	 */
-	public boolean checkGround(Graphics g) {
-		if ((this.x < 800) && (this.y < 500) && (this.x > 0) && (this.y > 0)) {
-			int squareX = (int) (this.x/100.0);
-			int squareY = (int) (this.y/100.0);
+	public boolean checkGround() {
+		// If the projectile is within the boundary of the panel
+		if ((this.x < PANEL_WIDTH) && (this.y < PANEL_HEIGHT) && (this.x > 0) && (this.y > 0)) {
+			int squareX = (int) (this.x/TILE_SIZE);
+			int squareY = (int) (this.y/TILE_SIZE);
 			
-			if (new Ground().terrain()[squareY][squareX] != 0) {
+			if (new Ground().getTerrain()[squareY][squareX] != 0) {
 			    //Play the explosion sound
-				AudioPlayer player = new AudioPlayer();
-			    player.playSound("/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Explosion+5.wav");
+			    AudioPlayer.playSound(EXPLOSION_SOUND);
 
-			    this.clear(g);
+			    this.clear();
 				exists = false;
-				this.x = 900;
+				this.x = 900; // Random number greater than 800, the width
 				bullets.remove(this);
 				return true;
 

@@ -8,6 +8,9 @@ public class Tank {
 	private int power;
 	private DirectionLine dir;
 	private Graphics g;
+	private final Color ARMY_GREEN = new Color(25,33,13);
+	private final int TANK_WIDTH = 25;
+	private final int TANK_HEIGHT = 15;
 	
 	public Tank(Graphics g) {
 		this.angle = 45;
@@ -84,10 +87,10 @@ public class Tank {
 	 * Draws the tank as a rectangle with an army green filling and a black border.
 	 */
 	public void draw() {
-		g.setColor(new Color(25,33,13));
-		g.fillRect((int)x, (int)y, 25, 15);
+		g.setColor(ARMY_GREEN);
+		g.fillRect((int)x, (int)y, TANK_WIDTH, TANK_HEIGHT);
 		g.setColor(Color.BLACK);
-		g.drawRect((int)x, (int)y, 25, 15);
+		g.drawRect((int)x, (int)y, TANK_WIDTH, TANK_HEIGHT);
 		dir.draw();
 	}
 	
@@ -96,8 +99,8 @@ public class Tank {
 	 */
 	public void clear() {
 		g.setColor(Color.WHITE);
-		g.fillRect((int)x-1, (int)y-1, 27, 17);
-		//dir.clear(g);
+		g.fillRect((int)x-1, (int)y-1, TANK_WIDTH + 2, TANK_HEIGHT + 2);
+		// covers 1 unit to each side of the tank with white
 	}
 	
 	/**

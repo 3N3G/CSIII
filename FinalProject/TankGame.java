@@ -14,17 +14,31 @@ import java.applet.*;
 import java.net.*;
 
 public class TankGame {
-	private DrawingPanel panel;
 	private final static int WIDTH = 800;
 	private final static int HEIGHT = 500;
-	private int hitsLeft = 3;
+	private final static String DING_SOUND = "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Ding.wav";
+	
 	/**
-	 * The main of this function with the while loop that draws everything.
+	 * The main of this function with the while loop that draws everything. First prints out
+	 * a message explaining the game, then creates the drawing panel, its Graphics and Background,
+	 * creates a tank and a projectile, the target, the terrain, and keylistener.
+	 * 
+	 * The while loop contains the game loop. It moves the projectile if any, draws the projectile,
+	 * tank, and ground, then checks if the projectile has hit the target, and if the projectile
+	 * has hit the ground. 
+	 * Then it pauses for 50 milliseconds, and clears the projectile and tank.
 	 * 
 	 * @param args
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
+		System.out.println("Welcome to the Tank Game!");
+		System.out.println("You control the tank on the left, and are trying to hit");
+		System.out.println("the target on the right. You control movement of the tank with the");
+		System.out.println("A and D keys, the angle of the shot with W and S keys, and power");
+		System.out.println("with the up and down arrow keys. Press P to shoot once you've aimed.");
+		System.out.println("Hit the target three times to win.");
+		
 		boolean running = true;
 		
 	    DrawingPanel panel = new DrawingPanel(WIDTH, HEIGHT);
@@ -32,7 +46,7 @@ public class TankGame {
 	    panel.setBackground(Color.WHITE);
 	    
 	    Tank t1 = new Tank(g);
-	    Projectile p1 = new Projectile();
+	    Projectile p1 = new Projectile(g);
 	    TileKeyListener listener = new TileKeyListener(t1, g, p1);
 		panel.addKeyListener(listener);
 		
@@ -41,12 +55,9 @@ public class TankGame {
 		Ground ground = new Ground();
 		
 	    while (running) {
-	    	
 	    	p1.shoot();
-	    	p1.draw(g);
-	    	/*for (Projectile p : p1.getBullets()) {
-	    		p1.draw(g);
-	    	}*/
+	    	
+	    	p1.draw();
        	 	t1.draw();
        	 	ground.draw(g, panel);
        	 	       	 	
@@ -54,31 +65,22 @@ public class TankGame {
        	 	if (!target.collides(p1)) {
        	 		target.draw();
        	 	} else {
-       	 		p1.clear(g);
+       	 		p1.clear();
        	 		p1.setX(1000);
-       	 		System.out.println("Hit!");
-       	 		AudioPlayer player = new AudioPlayer();
-       	 		player.playSound("/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Ding.wav");
+       	 		AudioPlayer.playSound(DING_SOUND);
        	 		target.clear();
        	 	}
        	 	
-       	 	p1.checkGround(g);
+       	 	p1.checkGround();
        	 	
-       	 	
-       	 	/*
-       	 	 * long updateTime = System.nanoTime() - initTime;
-       	 	 * long wait = (long) (1000.0/30.0 - updateTime/1000000);
-       	 	*/
        	 	try {
        	 		Thread.sleep(50);
        	 		
        	 	} catch (Exception e) {
        	 		e.printStackTrace();
        	 	}
-       	 	
-       	 	g.setColor(Color.WHITE);
 
-       	 	p1.clear(g);
+       	 	p1.clear();
        	 	t1.clear();
 		}
 	}
@@ -108,35 +110,43 @@ public class TankGame {
 	      
 	      /**
 	       * Records any keys pressed, and addresses them with the proper action.
+	       * Moves the tank left or right if and only if it will be within the borders, 
 	       * @param event key that was pressed
 	       */
 	      public void keyPressed(KeyEvent event) 
 	      {
 	         int code = event.getKeyCode();
-	         if (code == KeyEvent.VK_W) {
-	        	 t.addAngle(); // change this to increase angle by 1 degree
-	         } else if (code == KeyEvent.VK_D) {
-	        	 if (t.getX()<275) {
-	        		 t.addX(10);
-	        	 }
-	         } else if (code == KeyEvent.VK_P) {
-	        	 p1.reset(t.getX(), t.getY(), t.getAngle(), t.getPower(), g);
-	         } else if (code == KeyEvent.VK_A) {
-	        	 if (t.getX()>0) {
-	        		 t.addX(-10);
-	        	 }
-	         } else if (code == KeyEvent.VK_S) {
-	        	 t.minusAngle(); // change this to decrease angle by 1 degree
-	         } else if (code == KeyEvent.VK_M) {
-	        	 System.out.println("Angle: " + t.getAngle() + " Power: " + t.getPower());
-	        	 System.out.println();
-	         } else if (code == KeyEvent.VK_UP) {
-	        	 t.powerUp();
-	         } else if (code == KeyEvent.VK_DOWN) {
-	        	 t.powerDown();
-	         } else if (code == KeyEvent.VK_O) {
-	        	 
-	         }
+	         switch (code) {
+		         case (KeyEvent.VK_W):
+			         t.addAngle(); // change this to increase angle by 1 degree
+		         	 break;
+		         case (KeyEvent.VK_D):
+		        	 if (t.getX()<275) {
+		        		t.addX(10);
+		        	 }
+		         	 break;
+		         case (KeyEvent.VK_P):
+		        	 p1.reset(t.getX(), t.getY(), t.getAngle(), t.getPower());
+		         	 break;
+		         case (KeyEvent.VK_A):
+		        	if (t.getX()>0) {
+		        		t.addX(-10);
+		        	}
+		         	break;
+		         case (KeyEvent.VK_S):
+		        	t.minusAngle(); // change this to decrease angle by 1 degree
+		         	break;
+		         case (KeyEvent.VK_M): // For testing purposes
+		        	System.out.println("Angle: " + t.getAngle() + " Power: " + t.getPower());
+		        	System.out.println();
+		        	break;
+		         case (KeyEvent.VK_UP):
+		        	t.powerUp();
+		            break;
+		         case (KeyEvent.VK_DOWN):
+			        t.powerDown();
+		            break;
+		     }
 	           
 	      }
 	   }
