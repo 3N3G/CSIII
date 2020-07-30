@@ -3,6 +3,7 @@
 // Creates and runs the tank game
 // CSIII
 // 7/30/20
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -27,7 +28,8 @@ public class TankGame {
 	/**
 	 * {@value DING_SOUND} dinging success noise file name
 	 */
-	private static final String DING_SOUND = "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Ding.wav";
+	private static final String DING_SOUND =
+			"/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Ding.wav";
 	/**
 	 * {@value MOVEMENT_SIZE} amount the tank moves in one keypress
 	 */
@@ -41,6 +43,10 @@ public class TankGame {
 	 */
 	private static final int WAIT_PER_FRAME = 50;
 	
+	/**
+	 * {@value X_OUT_OF_BOUNDARY} an x value that is outside of the boundary of the panel
+	 */
+	private static final int X_OUT_OF_BOUNDARY = 1000;
 	
 	/**
 	 * The main of this function with the while loop that draws everything. First prints out
@@ -83,7 +89,7 @@ public class TankGame {
 	    	
 	    	p1.draw();
        	 	t1.draw();
-       	 	ground.draw(g, panel);
+       	 	ground.draw(g);
        	 	       	 	
        	 	
        	 	if (!target.collides(p1)) {
@@ -91,7 +97,7 @@ public class TankGame {
        	 	} else {
        	 		p1.clear();
        	 		// Moves the projectile out of the screen(x>800), so it can't cause any issues
-       	 		p1.setX(1000);
+       	 		p1.setX(X_OUT_OF_BOUNDARY);
        	 		AudioPlayer.playSound(DING_SOUND);
        	 		target.clear();
        	 	}

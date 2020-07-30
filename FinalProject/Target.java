@@ -20,11 +20,11 @@ public class Target {
 	/**
 	 * {@value x} x value of the target
 	 */
-	private final int x = 690;
+	private static final int x = 690;
 	/**
 	 * {@value y} y value of the target
 	 */
-	private final int y = 380;
+	private static final int y = 380;
 	/**
 	 * {@value SIDE_LENGHT} side length of the square target
 	 */
@@ -69,8 +69,8 @@ public class Target {
 	 */
 	public void clear() {
 		g.setColor(Color.WHITE);
-		g.fillRect(x-1,y-1,SIDE_LENGTH+2,SIDE_LENGTH+2);
 		// Fills the rectangle, with an extra unit to either side
+		g.fillRect(x-1,y-1,SIDE_LENGTH+2,SIDE_LENGTH+2);
 	}
 	
 	/**

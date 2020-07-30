@@ -31,7 +31,7 @@ public class DirectionLine {
 	/**
 	 * {@value DEG_TO_RAD} constant to multiply a degree amount to convert it to radians
 	 */
-	private final double DEG_TO_RAD = Math.PI/180.0; 
+	private static final double DEG_TO_RAD = Math.PI/180.0; 
 	
 	
 	/**
@@ -64,9 +64,11 @@ public class DirectionLine {
 	/**
 	 * Draws the direction line in the direction that the projectile will shoot, proportional
 	 * to the power of the shot.
+	 * @param g Graphics so that clear function can use it
 	 */
-	public void draw() {
-		g.drawLine(x, y, (int)(x+power/2*Math.cos((double)angle*DEG_TO_RAD)), (int)(y-power/2*Math.sin(angle*DEG_TO_RAD)));
+	public void draw(Graphics g) {
+		g.drawLine(x, y, (int)(x+power/2*Math.cos((double)angle*DEG_TO_RAD)),
+				(int)(y-power/2*Math.sin(angle*DEG_TO_RAD)));
 	}	
 	
 	/**
@@ -76,7 +78,7 @@ public class DirectionLine {
 		g.setColor(Color.WHITE);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(3));
-		g2.drawLine(x, y, (int)(x+power/2*Math.cos((double)angle*DEG_TO_RAD)), (int)(y-power/2*Math.sin(angle*DEG_TO_RAD)));
+		this.draw(g2);
 		g2.setStroke(new BasicStroke(1));
 	}
 }

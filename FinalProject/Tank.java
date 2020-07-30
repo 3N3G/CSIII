@@ -1,3 +1,9 @@
+// Gene Yang
+// Final Assignment Tank.java
+// Creates the tank class, and functions to modify it
+// CSIII
+// 7/30/20
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -6,38 +12,51 @@ public class Tank {
 	 * x value of tank
 	 */
 	private double x;
+	
 	/**
 	 * y value of tank
 	 */
 	private double y;
+	
 	/**
 	 * Angle of tank's shot trajectory
 	 */
 	private int angle;
+	
 	/**
 	 * Power of tank's shot
 	 */
 	private int power;
+	
 	/**
 	 * Direction line showing angle and power of shot
 	 */
 	private DirectionLine dir;
+	
 	/**
 	 * Graphics to draw with
 	 */
 	private Graphics g;
+	
 	/**
 	 * {@value ARMY_GREEN} color for army green
 	 */
-	private final Color ARMY_GREEN = new Color(25,33,13);
+	private static final Color ARMY_GREEN = new Color(25,33,13);
+	
 	/**
 	 * {@value TANK_WIDTH} width of a tank
 	 */
-	private final int TANK_WIDTH = 25;
+	private static final int TANK_WIDTH = 25;
+	
 	/**
 	 * {@value TANK_HEIGHT} height of a tank
 	 */
-	private final int TANK_HEIGHT = 15;
+	private static final int TANK_HEIGHT = 15;
+	
+	/**
+	 * {@value POWER_INCREMENT} how much power increases by every time
+	 */
+	private static final int POWER_INCREMENT = 5;
 	
 	/**
 	 * this constructor creates a tank with predetermined angle, power, x, y, and direction line.
@@ -122,7 +141,7 @@ public class Tank {
 		g.fillRect((int)x, (int)y, TANK_WIDTH, TANK_HEIGHT);
 		g.setColor(Color.BLACK);
 		g.drawRect((int)x, (int)y, TANK_WIDTH, TANK_HEIGHT);
-		dir.draw();
+		dir.draw(g);
 	}
 	
 	/**
@@ -130,8 +149,8 @@ public class Tank {
 	 */
 	public void clear() {
 		g.setColor(Color.WHITE);
-		g.fillRect((int)x-1, (int)y-1, TANK_WIDTH + 2, TANK_HEIGHT + 2);
 		// covers 1 unit to each side of the tank with white
+		g.fillRect((int)x-1, (int)y-1, TANK_WIDTH + 2, TANK_HEIGHT + 2);
 	}
 	
 	/**
@@ -140,7 +159,7 @@ public class Tank {
 	public void powerUp() {
 		if (power<200) {
 			dir.clear();
-			power = power + 5;
+			power = power + POWER_INCREMENT;
 			dir = new DirectionLine(this, g);
 		}
 	}
@@ -151,7 +170,7 @@ public class Tank {
 	public void powerDown() {
 		if (power > 0) {
 			dir.clear();
-			this.power = power - 5;
+			this.power = power - POWER_INCREMENT;
 			dir = new DirectionLine(this, g);
 		}
 	}	

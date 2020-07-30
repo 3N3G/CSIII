@@ -11,7 +11,7 @@ public class Ground {
 	/**
 	 * Array with 0's in places without a tile, and 1's with a tile.
 	 */
-	private static final int[][] terrain = {
+	private static final int[][] TERRAIN = {
 			{0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0},
 			{0,0,0,1,1,0,0,0},
@@ -32,23 +32,23 @@ public class Ground {
 	private static final int GRID_TILE_SIZE = 100;
 	
 	/**
-	 * @return terrain of the map, which is a flat plain with a wall in the middle
+	 * Gets the terrain of the map, which is a flat plain with a wall in the middle.
+	 * @return the terrain of the map as an integer array 
 	 */
 	public int[][] getTerrain() {
-		return Ground.terrain;
+		return Ground.TERRAIN;
 	}
 	
 	/**
 	 * Draws the ground by by drawing tiles whenever there's a 1 in the 2D array.
 	 * 
 	 * @param g Graphics to draw with
-	 * @param panel DrawingPanel to draw on
 	 * @throws IOException
 	 */
-	public void draw(Graphics g, DrawingPanel panel) throws IOException {		
+	public void draw(Graphics g) throws IOException {		
 		for (int i = 0; i < TERRAIN_TILES_LENGTH; i++) {
 			for (int j = 0; j < TERRAIN_TILES_WIDTH; j++) {
-				if (terrain[i][j] != 0) {
+				if (TERRAIN[i][j] != 0) {
 					GridTile tile = new GridTile(GRID_TILE_SIZE*j, GRID_TILE_SIZE*i);
 					tile.draw(g);
 				}

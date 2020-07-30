@@ -27,11 +27,12 @@ public class GridTile {
 	/**
 	 * {@value GRID_TILE_SIZE} side length of a tile
 	 */
-	private final int GRID_TILE_SIZE = 100;
+	private static final int GRID_TILE_SIZE = 100;
 	/**
 	 * {@value TILE_IMAGE} image of a tile
 	 */
-	private final File TILE_IMAGE = new File("/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Tile.png");
+	private static final File TILE_IMAGE = 
+			new File("/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Tile.png");
 	
 	/**
 	 * Sets the gridtile's location and image.
@@ -53,7 +54,8 @@ public class GridTile {
 	 * @param g Graphics to draw with
 	 */
 	public void draw(Graphics g) {
-		g.drawImage(flatImage, x, y, x+GRID_TILE_SIZE, y+GRID_TILE_SIZE, 0, 0, GRID_TILE_SIZE, GRID_TILE_SIZE, null);
+		g.drawImage(flatImage, x, y, x+GRID_TILE_SIZE, y+GRID_TILE_SIZE,
+				0, 0, GRID_TILE_SIZE, GRID_TILE_SIZE, null);
 	}
 	
 }

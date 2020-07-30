@@ -16,26 +16,32 @@ public class Projectile{
 	 * x value of the projectile
 	 */
 	private double x;
+	
 	/**
 	 * y value of the projectile
 	 */
 	private double y;
+	
 	/**
 	 * Change in x value of the projectile
 	 */
 	private double dX;
+	
 	/**
 	 * Change in y value of the projectile
 	 */
 	private double dY;
+	
 	/**
 	 * Whether the projectile exists
 	 */
 	private boolean exists;
+	
 	/**
 	 * All bullets to be drawn. Ensures that only new ones are drawn.
 	 */
 	private ArrayList<Projectile> bullets = new ArrayList<>();
+	
 	/**
 	 * Graphics to draw with
 	 */
@@ -44,31 +50,54 @@ public class Projectile{
 	/**
 	 * {@value PROJECTILE_RADIUS} radius of the projectile
 	 */
-	private final int PROJECTILE_RADIUS = 10;
+	private static final int PROJECTILE_RADIUS = 10;
+	
 	/**
-	 * {@value DEG_TO_RAD} constant to multiply a number by to turn it into radians fromd egrees
+	 * {@value DEG_TO_RAD} constant to multiply a number by to turn it into radians from degrees
 	 */
-	private final double DEG_TO_RAD = Math.PI/180.0; 
+	private static final double DEG_TO_RAD = Math.PI/180.0; 
+	
 	/**
 	 * {@value SHOT_SOUND} filename for the shot sound
 	 */
-	private static final String SHOT_SOUND = "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Shot.wav";
+	private static final String SHOT_SOUND =
+			"/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Shot.wav";
+	
 	/**
 	 * {@value EXPLOSION_SOUND} filename for the explosion sound
 	 */
-	private static final String EXPLOSION_SOUND= "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Explosion+5.wav";
+	private static final String EXPLOSION_SOUND =
+			"/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Explosion+5.wav";
+	
 	/**
 	 * {@value TILE_SIZE} the side length of a tile
 	 */
-	private final double TILE_SIZE = 100;
+	private static final double TILE_SIZE = 100;
+	
 	/**
 	 * {@value PANEL_WIDTH} width of the panel
 	 */
-	private final int PANEL_WIDTH = 800;
+	private static final int PANEL_WIDTH = 800;
+	
 	/**
 	 * {@value PANEL_HEIGHT} height of the panel
 	 */
-	private final int PANEL_HEIGHT = 500;
+	private static final int PANEL_HEIGHT = 500;
+	
+	/**
+	 * {@value POWER_SCALE} how much the power value was scaled up
+	 */
+	private static final int POWER_SCALE = 10;
+	
+	/**
+	 * {@value X_OUT_OF_BOUNDARY} an x value that is outside of the boundary of the panel
+	 */
+	private static final int X_OUT_OF_BOUNDARY = 1000;
+	
+	/**
+	 * {@value GRAVITY_CONSTANT} how much gravity pulls at change in y
+	 */
+	private static final double GRAVITY_CONSTANT = 1.0/2.0;	
 	
 	/**
 	 * this constructor brings in the Graphics variable g that allows for drawing 
@@ -108,7 +137,10 @@ public class Projectile{
 	 */
 	public void clear() {
 		g.setColor(Color.WHITE);
-		g.fillOval((int)x-(PROJECTILE_RADIUS + 1), (int)y-(PROJECTILE_RADIUS + 1), 2*(PROJECTILE_RADIUS + 1), 2*(PROJECTILE_RADIUS + 1));
+		// The top left corner of the circle's rectangle bound starts one unit up and left,
+		// and it reaches out to one unit below and to the right of the bottom right corner.
+		g.fillOval((int)x-(PROJECTILE_RADIUS + 1), (int)y-(PROJECTILE_RADIUS + 1),
+				2*(PROJECTILE_RADIUS + 1), 2*(PROJECTILE_RADIUS + 1));
 	}
 	
 	/**
@@ -128,8 +160,9 @@ public class Projectile{
 		this.x = initX;
 		this.y = initY;
 		
-		this.dX = Math.cos((double)angle*DEG_TO_RAD) * power / 10; 
-		this.dY = Math.sin((double)angle*DEG_TO_RAD) * power / 10;
+		// The power scales up 10 times too much, so it needs to get scaled down for calculation
+		this.dX = Math.cos((double)angle*DEG_TO_RAD) * power / POWER_SCALE; 
+		this.dY = Math.sin((double)angle*DEG_TO_RAD) * power / POWER_SCALE;
 		
 		bullets.clear();
 		bullets.add(this);
@@ -142,10 +175,12 @@ public class Projectile{
 	public void draw() {
 		if (exists) {
 			g.setColor(Color.BLUE);
-			g.fillOval((int)x-PROJECTILE_RADIUS, (int)y-PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS);
+			g.fillOval((int)x-PROJECTILE_RADIUS, (int)y-PROJECTILE_RADIUS,
+					2*PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS);
 		} else {
 			g.setColor(Color.WHITE);
-			g.fillOval((int)x-PROJECTILE_RADIUS, (int)y-PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS);
+			g.fillOval((int)x-PROJECTILE_RADIUS, (int)y-PROJECTILE_RADIUS,
+					2*PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS);
 		}
 	}
 	
@@ -157,14 +192,16 @@ public class Projectile{
 		this.x += this.dX;
 		this.y -= this.dY;
 		
-		this.dY -= 1.0/2.0; 
+		// Gravity lowers the amount it travels vertically by a certain constant
+		this.dY -= GRAVITY_CONSTANT; 
 	}
 	
 	/**
 	 * @return the rectangle that bounds the circle that is the projectile
 	 */
 	public Shape getShape() {
-		return new Rectangle ((int)x-PROJECTILE_RADIUS,(int)y-PROJECTILE_RADIUS,2*PROJECTILE_RADIUS,2*PROJECTILE_RADIUS);
+		return new Rectangle ((int)x-PROJECTILE_RADIUS, (int)y-PROJECTILE_RADIUS,
+				2*PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS);
 	}
 	
 	/**
@@ -191,7 +228,7 @@ public class Projectile{
 			    this.clear();
 				exists = false;
 				// Moves the projectile out of the screen, so it can't cause any issues
-				this.x = 1000;
+				this.x = X_OUT_OF_BOUNDARY;
 				bullets.remove(this);
 				return true;
 
