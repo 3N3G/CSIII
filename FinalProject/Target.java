@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-// a 50x30 rectangle that disappears when hit
+// a 20x20 rectangle that disappears when hit
 
 public class Target {
 	private int x;
@@ -10,7 +10,7 @@ public class Target {
 	
 	public Target() {
 		x = 690;
-		y = 370;
+		y = 380;
 		hitCount = 0;
 	}
 	
@@ -21,8 +21,10 @@ public class Target {
 	 * @return whether the projectile collided with 
 	 */
 	public boolean collides(Projectile p) {
+		
 		if (this.getShape().getBounds2D().intersects(p.getShape().getBounds2D())) {
 			hitCount++;
+			System.out.println("Hit");
 			return true;
 		}
 		return false;
@@ -34,20 +36,20 @@ public class Target {
 	 * @param g
 	 */
 	public void draw(Graphics g) {
-		if (hitCount < 3) {
-			g.setColor(Color.GREEN);
-			g.fillRect(x, y, 50, 30);
+		if (hitCount < 10) {
+			g.setColor(Color.RED);
+			g.fillRect(x, y, 20, 20);
 		}
 	}
 	
 	public void clear(Graphics g) {
 		g.setColor(Color.WHITE);
-		g.fillRect(x-1,y-1,52,32);
+		g.fillRect(x-1,y-1,22,22);
 	}
 	
 	
 	public Shape getShape() {
-		return new Rectangle(x,y,50,30);
+		return new Rectangle(x,y,20,20);
 	}
 	
 }

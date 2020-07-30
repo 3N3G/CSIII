@@ -16,9 +16,7 @@ public class Ground {
 		return this.terrain;
 	}
 	
-	public void draw(Graphics g, DrawingPanel panel) throws IOException {
-		System.out.println(terrain[0][0]);
-		
+	public void draw(Graphics g, DrawingPanel panel) throws IOException {		
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 8; j++) {
 				//System.out.print(terrain[i][j] + " ");
