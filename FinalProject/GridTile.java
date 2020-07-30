@@ -54,7 +54,7 @@ public class GridTile {
 	 * @param g Graphics to draw with
 	 */
 	public void draw(Graphics g) {
-		g.drawImage(flatImage, x, y, x+GRID_TILE_SIZE, y+GRID_TILE_SIZE,
+		g.drawImage(flatImage, x, y, x + GRID_TILE_SIZE, y + GRID_TILE_SIZE,
 				0, 0, GRID_TILE_SIZE, GRID_TILE_SIZE, null);
 	}
 	

@@ -28,7 +28,7 @@ public class AudioPlayer {
 		    clip.start();
 		}
 		catch (Exception e) {
-		    System.out.println("This shouldn't work");
+		    System.out.println("Error playing music file: " + fileName);
 		}
 	}
 }

@@ -67,8 +67,8 @@ public class DirectionLine {
 	 * @param g Graphics so that clear function can use it
 	 */
 	public void draw(Graphics g) {
-		g.drawLine(x, y, (int)(x+power/2*Math.cos((double)angle*DEG_TO_RAD)),
-				(int)(y-power/2*Math.sin(angle*DEG_TO_RAD)));
+		g.drawLine(x, y, (int)(x + power / 2 * Math.cos((double)angle * DEG_TO_RAD)),
+				(int)(y - power / 2 * Math.sin(angle * DEG_TO_RAD)));
 	}	
 	
 	/**
@@ -77,8 +77,10 @@ public class DirectionLine {
 	public void clear() {
 		g.setColor(Color.WHITE);
 		Graphics2D g2 = (Graphics2D) g;
+		// Draws a thickness 3 line
 		g2.setStroke(new BasicStroke(3));
 		this.draw(g2);
+		// Resets back to standard thickness 1
 		g2.setStroke(new BasicStroke(1));
 	}
 }

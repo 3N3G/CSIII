@@ -161,8 +161,8 @@ public class Projectile{
 		this.y = initY;
 		
 		// The power scales up 10 times too much, so it needs to get scaled down for calculation
-		this.dX = Math.cos((double)angle*DEG_TO_RAD) * power / POWER_SCALE; 
-		this.dY = Math.sin((double)angle*DEG_TO_RAD) * power / POWER_SCALE;
+		this.dX = Math.cos((double)angle * DEG_TO_RAD) * power / POWER_SCALE; 
+		this.dY = Math.sin((double)angle * DEG_TO_RAD) * power / POWER_SCALE;
 		
 		bullets.clear();
 		bullets.add(this);
@@ -175,12 +175,12 @@ public class Projectile{
 	public void draw() {
 		if (exists) {
 			g.setColor(Color.BLUE);
-			g.fillOval((int)x-PROJECTILE_RADIUS, (int)y-PROJECTILE_RADIUS,
-					2*PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS);
+			g.fillOval((int)x - PROJECTILE_RADIUS, (int)y - PROJECTILE_RADIUS,
+					2 * PROJECTILE_RADIUS, 2 * PROJECTILE_RADIUS);
 		} else {
 			g.setColor(Color.WHITE);
-			g.fillOval((int)x-PROJECTILE_RADIUS, (int)y-PROJECTILE_RADIUS,
-					2*PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS);
+			g.fillOval((int)x - PROJECTILE_RADIUS, (int)y - PROJECTILE_RADIUS,
+					2 * PROJECTILE_RADIUS, 2 * PROJECTILE_RADIUS);
 		}
 	}
 	
@@ -200,8 +200,8 @@ public class Projectile{
 	 * @return the rectangle that bounds the circle that is the projectile
 	 */
 	public Shape getShape() {
-		return new Rectangle ((int)x-PROJECTILE_RADIUS, (int)y-PROJECTILE_RADIUS,
-				2*PROJECTILE_RADIUS, 2*PROJECTILE_RADIUS);
+		return new Rectangle ((int)x - PROJECTILE_RADIUS, (int)y - PROJECTILE_RADIUS,
+				2 * PROJECTILE_RADIUS, 2 * PROJECTILE_RADIUS);
 	}
 	
 	/**
@@ -213,7 +213,7 @@ public class Projectile{
 	 * It also plays the explosion sound, and removes the bullet and its influence after hitting 
 	 * the ground.
 	 * 
-	 * @return Whether the projectile collides with the walls
+	 * @return whether the projectile collides with the walls
 	 */
 	public boolean checkGround() {
 		// If the projectile is within the boundary of the panel

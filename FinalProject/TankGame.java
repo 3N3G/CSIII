@@ -96,7 +96,7 @@ public class TankGame {
        	 		target.draw();
        	 	} else {
        	 		p1.clear();
-       	 		// Moves the projectile out of the screen(x>800), so it can't cause any issues
+       	 		// Moves the projectile out of the screen(x > 800), so it can't cause any issues
        	 		p1.setX(X_OUT_OF_BOUNDARY);
        	 		AudioPlayer.playSound(DING_SOUND);
        	 		target.clear();

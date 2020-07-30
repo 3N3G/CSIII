@@ -59,6 +59,16 @@ public class Tank {
 	private static final int POWER_INCREMENT = 5;
 	
 	/**
+	 * {@value MAX_POWER} Maximum power that the tank can shoot
+	 */
+	private static final int MAX_POWER = 200;
+	
+	/**
+	 * {@value MIN_POWER} Minimum power that the tank can shoot
+	 */
+	private static final int MIN_POWER = 10;
+	
+	/**
 	 * this constructor creates a tank with predetermined angle, power, x, y, and direction line.
 	 * @param g
 	 */
@@ -150,14 +160,14 @@ public class Tank {
 	public void clear() {
 		g.setColor(Color.WHITE);
 		// covers 1 unit to each side of the tank with white
-		g.fillRect((int)x-1, (int)y-1, TANK_WIDTH + 2, TANK_HEIGHT + 2);
+		g.fillRect((int)x - 1, (int)y - 1, TANK_WIDTH + 2, TANK_HEIGHT + 2);
 	}
 	
 	/**
 	 * Increases the power of the projectile shot by 5, up to the max, which is 200.
 	 */
 	public void powerUp() {
-		if (power<200) {
+		if (power < MAX_POWER) {
 			dir.clear();
 			power = power + POWER_INCREMENT;
 			dir = new DirectionLine(this, g);
@@ -168,7 +178,7 @@ public class Tank {
 	 * Decreases the power of the projectile shot by 5, down to the min, which is 0.
 	 */
 	public void powerDown() {
-		if (power > 0) {
+		if (power > MIN_POWER) {
 			dir.clear();
 			this.power = power - POWER_INCREMENT;
 			dir = new DirectionLine(this, g);

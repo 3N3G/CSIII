@@ -16,8 +16,7 @@ public class Ground {
 			{0,0,0,0,0,0,0,0},
 			{0,0,0,1,1,0,0,0},
 			{0,0,0,1,1,0,0,0},
-			{1,1,1,1,1,1,1,1}
-			};
+			{1,1,1,1,1,1,1,1}};
 	/**
 	 * {@value TERRAIN_TILES_WIDTH} width of the array
 	 */
@@ -49,7 +48,7 @@ public class Ground {
 		for (int i = 0; i < TERRAIN_TILES_LENGTH; i++) {
 			for (int j = 0; j < TERRAIN_TILES_WIDTH; j++) {
 				if (TERRAIN[i][j] != 0) {
-					GridTile tile = new GridTile(GRID_TILE_SIZE*j, GRID_TILE_SIZE*i);
+					GridTile tile = new GridTile(GRID_TILE_SIZE * j, GRID_TILE_SIZE * i);
 					tile.draw(g);
 				}
 			}

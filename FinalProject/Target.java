@@ -70,7 +70,7 @@ public class Target {
 	public void clear() {
 		g.setColor(Color.WHITE);
 		// Fills the rectangle, with an extra unit to either side
-		g.fillRect(x-1,y-1,SIDE_LENGTH+2,SIDE_LENGTH+2);
+		g.fillRect(x - 1, y - 1, SIDE_LENGTH + 2, SIDE_LENGTH + 2);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class Target {
 	 * @return a 20x20 square with top left coordinate x,y
 	 */
 	public Shape getShape() {
-		return new Rectangle(x,y,SIDE_LENGTH,SIDE_LENGTH);
+		return new Rectangle(x, y, SIDE_LENGTH, SIDE_LENGTH);
 	}
 	
 }
