@@ -1,3 +1,9 @@
+// Gene Yang
+// Final Assignment Projectile.java
+// Creates a Projectile and the classes to modify it
+// CSIII
+// 7/30/20
+
 import java.awt.*;
 import java.util.*;
 import java.io.*;
@@ -6,22 +12,69 @@ import java.net.*;
 import javax.sound.sampled.*;
 
 public class Projectile{
+	/**
+	 * x value of the projectile
+	 */
 	private double x;
+	/**
+	 * y value of the projectile
+	 */
 	private double y;
+	/**
+	 * Change in x value of the projectile
+	 */
 	private double dX;
+	/**
+	 * Change in y value of the projectile
+	 */
 	private double dY;
+	/**
+	 * Whether the projectile exists
+	 */
 	private boolean exists;
+	/**
+	 * All bullets to be drawn. Ensures that only new ones are drawn.
+	 */
 	private ArrayList<Projectile> bullets = new ArrayList<>();
+	/**
+	 * Graphics to draw with
+	 */
 	private Graphics g;
 	
+	/**
+	 * {@value PROJECTILE_RADIUS} radius of the projectile
+	 */
 	private final int PROJECTILE_RADIUS = 10;
+	/**
+	 * {@value DEG_TO_RAD} constant to multiply a number by to turn it into radians fromd egrees
+	 */
 	private final double DEG_TO_RAD = Math.PI/180.0; 
+	/**
+	 * {@value SHOT_SOUND} filename for the shot sound
+	 */
 	private static final String SHOT_SOUND = "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Shot.wav";
+	/**
+	 * {@value EXPLOSION_SOUND} filename for the explosion sound
+	 */
 	private static final String EXPLOSION_SOUND= "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Explosion+5.wav";
+	/**
+	 * {@value TILE_SIZE} the side length of a tile
+	 */
 	private final double TILE_SIZE = 100;
+	/**
+	 * {@value PANEL_WIDTH} width of the panel
+	 */
 	private final int PANEL_WIDTH = 800;
+	/**
+	 * {@value PANEL_HEIGHT} height of the panel
+	 */
 	private final int PANEL_HEIGHT = 500;
 	
+	/**
+	 * this constructor brings in the Graphics variable g that allows for drawing 
+	 * elsewhere in the class.
+	 * @param g
+	 */
 	public Projectile(Graphics g) {
 		this.g = g;
 	}
@@ -61,30 +114,29 @@ public class Projectile{
 	/**
 	 * Resets the projectile
 	 * 
-	 * @param initX
-	 * @param initY
-	 * @param angle
-	 * @param power
+	 * @param initX X value that it starts at
+	 * @param initY Y value that it starts at
+	 * @param angle angle of the trajectory
+	 * @param power power of the shot
 	 */
 	public void reset(double initX, double initY, int angle, int power) {
 		AudioPlayer.playSound(SHOT_SOUND);
 		this.clear();
 		
 		this.exists = true;
+		
 		this.x = initX;
 		this.y = initY;
-		this.dX = Math.cos((double)angle*DEG_TO_RAD) * power / 10;
+		
+		this.dX = Math.cos((double)angle*DEG_TO_RAD) * power / 10; 
 		this.dY = Math.sin((double)angle*DEG_TO_RAD) * power / 10;
-		while (!bullets.isEmpty()) {
-			bullets.remove(0);
-		}
+		
+		bullets.clear();
 		bullets.add(this);
 	}
 	
 	/**
 	 * Draws the projectile, a red ball.
-	 * 
-	 * @param g
 	 */
 	
 	public void draw() {
@@ -138,7 +190,8 @@ public class Projectile{
 
 			    this.clear();
 				exists = false;
-				this.x = 900; // Random number greater than 800, the width
+				// Moves the projectile out of the screen, so it can't cause any issues
+				this.x = 1000;
 				bullets.remove(this);
 				return true;
 

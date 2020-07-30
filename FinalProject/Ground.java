@@ -11,7 +11,7 @@ public class Ground {
 	/**
 	 * Array with 0's in places without a tile, and 1's with a tile.
 	 */
-	private final int[][] terrain = {
+	private static final int[][] terrain = {
 			{0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0},
 			{0,0,0,1,1,0,0,0},
@@ -21,21 +21,21 @@ public class Ground {
 	/**
 	 * {@value TERRAIN_TILES_WIDTH} width of the array
 	 */
-	private final int TERRAIN_TILES_WIDTH = 8;
+	private static final int TERRAIN_TILES_WIDTH = 8;
 	/**
 	 * {@value TERRAIN_TILES_LENGTH} length of the array
 	 */
-	private final int TERRAIN_TILES_LENGTH = 5;
+	private static final int TERRAIN_TILES_LENGTH = 5;
 	/**
 	 * {@value GRID_TILE_SIZE} size of each square tile
 	 */
-	private final int GRID_TILE_SIZE = 100;
+	private static final int GRID_TILE_SIZE = 100;
 	
 	/**
 	 * @return terrain of the map, which is a flat plain with a wall in the middle
 	 */
 	public int[][] getTerrain() {
-		return this.terrain;
+		return Ground.terrain;
 	}
 	
 	/**

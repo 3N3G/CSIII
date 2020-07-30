@@ -8,18 +8,34 @@ import java.awt.*;
 
 
 public class DirectionLine {
+	/**
+	 * x value of the original corner of the line
+	 */
 	private int x;
+	/**
+	 * y value of the original corner of the line
+	 */
 	private int y;
+	/**
+	 * power of the shot
+	 */
 	private int power;
+	/**
+	 * angle of the shot
+	 */
 	private int angle;
+	/**
+	 * Graphics to draw with
+	 */
 	private Graphics g;
+	/**
+	 * {@value DEG_TO_RAD} constant to multiply a degree amount to convert it to radians
+	 */
 	private final double DEG_TO_RAD = Math.PI/180.0; 
 	
 	
-// Constructor taking in x, y, power, angle
-// draw 
 	/**
-	 * This constructor creats the direction line
+	 * This constructor creates the direction line.
 	 * @param t Tank that has the direction
 	 * @param g Graphics
 	 */

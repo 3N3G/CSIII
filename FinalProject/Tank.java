@@ -2,16 +2,47 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Tank {
+	/**
+	 * x value of tank
+	 */
 	private double x;
+	/**
+	 * y value of tank
+	 */
 	private double y;
+	/**
+	 * Angle of tank's shot trajectory
+	 */
 	private int angle;
+	/**
+	 * Power of tank's shot
+	 */
 	private int power;
+	/**
+	 * Direction line showing angle and power of shot
+	 */
 	private DirectionLine dir;
+	/**
+	 * Graphics to draw with
+	 */
 	private Graphics g;
+	/**
+	 * {@value ARMY_GREEN} color for army green
+	 */
 	private final Color ARMY_GREEN = new Color(25,33,13);
+	/**
+	 * {@value TANK_WIDTH} width of a tank
+	 */
 	private final int TANK_WIDTH = 25;
+	/**
+	 * {@value TANK_HEIGHT} height of a tank
+	 */
 	private final int TANK_HEIGHT = 15;
 	
+	/**
+	 * this constructor creates a tank with predetermined angle, power, x, y, and direction line.
+	 * @param g
+	 */
 	public Tank(Graphics g) {
 		this.angle = 45;
 		this.power = 150;

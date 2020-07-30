@@ -12,10 +12,25 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class GridTile {
+	/**
+	 * x value of the grid tile's corner
+	 */
 	private int x;
+	/**
+	 * y value of the grid tile's corner
+	 */
 	private int y;
+	/**
+	 * the bufferedimage to be drawn
+	 */
 	private BufferedImage flatImage;
+	/**
+	 * {@value GRID_TILE_SIZE} side length of a tile
+	 */
 	private final int GRID_TILE_SIZE = 100;
+	/**
+	 * {@value TILE_IMAGE} image of a tile
+	 */
 	private final File TILE_IMAGE = new File("/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Tile.png");
 	
 	/**

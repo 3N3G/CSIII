@@ -1,6 +1,8 @@
 // Gene Yang
-// The main class of the game, that runs everything
-
+// Final Assignment TankGame.java
+// Creates and runs the tank game
+// CSIII
+// 7/30/20
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -14,9 +16,31 @@ import java.applet.*;
 import java.net.*;
 
 public class TankGame {
-	private final static int WIDTH = 800;
-	private final static int HEIGHT = 500;
-	private final static String DING_SOUND = "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Ding.wav";
+	/**
+	 * {@value WIDTH} width of the drawing window
+	 */
+	private static final int WIDTH = 800;
+	/**
+	 * {@value HEIGHT} height of the drawing window
+	 */
+	private static final int HEIGHT = 500;
+	/**
+	 * {@value DING_SOUND} dinging success noise file name
+	 */
+	private static final String DING_SOUND = "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Ding.wav";
+	/**
+	 * {@value MOVEMENT_SIZE} amount the tank moves in one keypress
+	 */
+	private static final int MOVEMENT_SIZE = 10;
+	/**
+	 * {@value MIDDLE_BORDER} x coordinate of tank when it hits the middle
+	 */
+	private static final int MIDDLE_BORDER = 275;
+	/**
+	 * {@value WAIT_PER_FRAME} how long in milliseconds to wait between frames
+	 */
+	private static final int WAIT_PER_FRAME = 50;
+	
 	
 	/**
 	 * The main of this function with the while loop that draws everything. First prints out
@@ -66,6 +90,7 @@ public class TankGame {
        	 		target.draw();
        	 	} else {
        	 		p1.clear();
+       	 		// Moves the projectile out of the screen(x>800), so it can't cause any issues
        	 		p1.setX(1000);
        	 		AudioPlayer.playSound(DING_SOUND);
        	 		target.clear();
@@ -74,7 +99,7 @@ public class TankGame {
        	 	p1.checkGround();
        	 	
        	 	try {
-       	 		Thread.sleep(50);
+       	 		Thread.sleep(WAIT_PER_FRAME);
        	 		
        	 	} catch (Exception e) {
        	 		e.printStackTrace();
@@ -96,7 +121,6 @@ public class TankGame {
 	      
 	      /**
 	       * constructs the tileListener, along with parameters to alter as actions
-	       * @param panel DrawingPanel that everything is drawn on
 	       * @param t Tank that is drawn and moves
 	       * @param g Graphics
 	       * @param p1 Projectile that's being drawn
@@ -121,8 +145,8 @@ public class TankGame {
 			         t.addAngle(); // change this to increase angle by 1 degree
 		         	 break;
 		         case (KeyEvent.VK_D):
-		        	 if (t.getX()<275) {
-		        		t.addX(10);
+		        	 if (t.getX()<MIDDLE_BORDER) {
+		        		t.addX(MOVEMENT_SIZE);
 		        	 }
 		         	 break;
 		         case (KeyEvent.VK_P):
@@ -130,7 +154,7 @@ public class TankGame {
 		         	 break;
 		         case (KeyEvent.VK_A):
 		        	if (t.getX()>0) {
-		        		t.addX(-10);
+		        		t.addX(-1*MOVEMENT_SIZE);// negative to move left
 		        	}
 		         	break;
 		         case (KeyEvent.VK_S):
