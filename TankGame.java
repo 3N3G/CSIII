@@ -4,124 +4,158 @@
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
-
+import java.applet.*;
+import java.net.*;
 
 public class TankGame {
-	private ArrayList<Object> itemsToDraw = new ArrayList<>();
-	
+	/**
+	 * {@value WIDTH} width of the drawing window
+	 */
 	private final static int WIDTH = 800;
+	/**
+	 * {@value HEIGHT} height of the drawing window
+	 */
 	private final static int HEIGHT = 500;
+	/**
+	 * {@value DING_SOUND} dinging success noise file name
+	 */
+	private final static String DING_SOUND = "/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Ding.wav";
 	
+	/**
+	 * The main of this function with the while loop that draws everything. First prints out
+	 * a message explaining the game, then creates the drawing panel, its Graphics and Background,
+	 * creates a tank and a projectile, the target, the terrain, and keylistener.
+	 * 
+	 * The while loop contains the game loop. It moves the projectile if any, draws the projectile,
+	 * tank, and ground, then checks if the projectile has hit the target, and if the projectile
+	 * has hit the ground. 
+	 * Then it pauses for 50 milliseconds, and clears the projectile and tank.
+	 * 
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
+		System.out.println("Welcome to the Tank Game!");
+		System.out.println("You control the tank on the left, and are trying to hit");
+		System.out.println("the target on the right. You control movement of the tank with the");
+		System.out.println("A and D keys, the angle of the shot with W and S keys, and power");
+		System.out.println("with the up and down arrow keys. Press P to shoot once you've aimed.");
+		System.out.println("Hit the target three times to win.");
+		
 		boolean running = true;
 		
 	    DrawingPanel panel = new DrawingPanel(WIDTH, HEIGHT);
 	    Graphics g = panel.getGraphics();
 	    panel.setBackground(Color.WHITE);
 	    
-	    Tank t1 = new Tank();
-	    Projectile p1 = new Projectile(30,400,45,10);
-	    TileKeyListener listener = new TileKeyListener(panel, t1, g, p1);
+	    Tank t1 = new Tank(g);
+	    Projectile p1 = new Projectile(g);
+	    TileKeyListener listener = new TileKeyListener(t1, g, p1);
 		panel.addKeyListener(listener);
 		
-		Target target = new Target();
-		
-		//target.setTargetClip(g);
-		
-		Shape r1 = new Rectangle(20,20,50,50);
-		Shape r2 = new Rectangle(30, 30, 50, 50); 
-		
-		if (r1.intersects((Rectangle2D) r2)) {
-			System.out.println("test intersect pass");
-		}
-		
-		boolean targetGone = false;
-		
+		Target target = new Target(g);
+
 		Ground ground = new Ground();
 		
-		
 	    while (running) {
-	    	
 	    	p1.shoot();
-	    	for (Projectile p : p1.getBullets()) {
-	    		p1.draw(g);
-	    	}
-       	 	t1.draw(g);
+	    	
+	    	p1.draw();
+       	 	t1.draw();
        	 	ground.draw(g, panel);
+       	 	       	 	
        	 	
        	 	if (!target.collides(p1)) {
-       	 		//System.out.println("target: " + target.getShape().toString());
-       	 		//System.out.println("bullet: " + p1.getShape().toString());
-       	 		target.draw(g);
+       	 		target.draw();
        	 	} else {
-       	 		target.clear(g);
+       	 		p1.clear();
+       	 		p1.setX(1000);
+       	 		AudioPlayer.playSound(DING_SOUND);
+       	 		target.clear();
        	 	}
-       	 	p1.checkGround(g);
        	 	
+       	 	p1.checkGround();
        	 	
-       	 	/*
-       	 	 * long updateTime = System.nanoTime() - initTime;
-       	 	 * long wait = (long) (1000.0/30.0 - updateTime/1000000);
-       	 	*/
        	 	try {
        	 		Thread.sleep(50);
        	 		
        	 	} catch (Exception e) {
        	 		e.printStackTrace();
        	 	}
-       	 	
-       	 	g.setColor(Color.WHITE);
 
-       	 	//panel.clear();
-       	 	p1.clear(g);
-       	 	t1.clear(g);
+       	 	p1.clear();
+       	 	t1.clear();
 		}
 	}
 	
-		/** A class for responding to key presses on the drawing panel.
+		/** 
+		 * A class for responding to key presses on the drawing panel.
 	    */
 	   public static class TileKeyListener extends KeyAdapter 
 	   {
-	      private DrawingPanel panel;
 	      private Tank t;
 	      private Graphics g;
 	      private Projectile p1;
 	      
-	      public TileKeyListener(DrawingPanel panel, Tank t, Graphics g, Projectile p1) 
+	      /**
+	       * constructs the tileListener, along with parameters to alter as actions
+	       * @param panel DrawingPanel that everything is drawn on
+	       * @param t Tank that is drawn and moves
+	       * @param g Graphics
+	       * @param p1 Projectile that's being drawn
+	       */
+	      public TileKeyListener(Tank t, Graphics g, Projectile p1) 
 	      {
-	         this.panel = panel;
 	         this.t = t;
 	         this.g = g;
 	         this.p1 = p1;
 	      }
 	      
+	      /**
+	       * Records any keys pressed, and addresses them with the proper action.
+	       * Moves the tank left or right if and only if it will be within the borders, 
+	       * @param event key that was pressed
+	       */
 	      public void keyPressed(KeyEvent event) 
 	      {
 	         int code = event.getKeyCode();
-	         if (code == KeyEvent.VK_W) {
-	        	  t.addAngle(); // change this to increase angle by 1 degree
-	         } else if (code == KeyEvent.VK_D) {
-	        	 t.clear(g);
-	        	 t.addX(10);
-	         } else if (code == KeyEvent.VK_P) {
-	        	 p1.reset(t.getX(), t.getY(), t.getAngle(), t.getPower(), g);
-	         } else if (code == KeyEvent.VK_A) {
-	        	 t.clear(g);
-	        	 t.addX(-10);
-	         } else if (code == KeyEvent.VK_S) {
-	        	 t.minusAngle(); // change this to decrease angle by 1 degree
-	         } else if (code == KeyEvent.VK_M) {
-	        	 System.out.println("Angle: " + t.getAngle());
-	        	 System.out.println();
-	         }
+	         switch (code) {
+		         case (KeyEvent.VK_W):
+			         t.addAngle(); // change this to increase angle by 1 degree
+		         	 break;
+		         case (KeyEvent.VK_D):
+		        	 if (t.getX()<275) {
+		        		t.addX(10);
+		        	 }
+		         	 break;
+		         case (KeyEvent.VK_P):
+		        	 p1.reset(t.getX(), t.getY(), t.getAngle(), t.getPower());
+		         	 break;
+		         case (KeyEvent.VK_A):
+		        	if (t.getX()>0) {
+		        		t.addX(-10);
+		        	}
+		         	break;
+		         case (KeyEvent.VK_S):
+		        	t.minusAngle(); // change this to decrease angle by 1 degree
+		         	break;
+		         case (KeyEvent.VK_M): // For testing purposes
+		        	System.out.println("Angle: " + t.getAngle() + " Power: " + t.getPower());
+		        	System.out.println();
+		        	break;
+		         case (KeyEvent.VK_UP):
+		        	t.powerUp();
+		            break;
+		         case (KeyEvent.VK_DOWN):
+			        t.powerDown();
+		            break;
+		     }
 	           
 	      }
 	   }

@@ -1,51 +1,58 @@
+// Gene Yang
+// Final Assignment Ground.java
+// Creates the terrain, with a 5x8 array representing the 5x8 size 100 tiles
+// CSIII
+// 7/30/20
+
 import java.awt.*;
 import java.io.IOException;
 
 public class Ground {
-	private int[][] terrain = {{0,0,0,0,0,0,0,0},
+	/**
+	 * Array with 0's in places without a tile, and 1's with a tile.
+	 */
+	private final int[][] terrain = {
 			{0,0,0,0,0,0,0,0},
-			{0,0,0,2,3,0,0,0},
-			{0,0,0,2,3,0,0,0},
-			{1,1,1,1,1,1,1,1}};
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,1,1,0,0,0},
+			{0,0,0,1,1,0,0,0},
+			{1,1,1,1,1,1,1,1}
+			};
+	/**
+	 * {@value TERRAIN_TILES_WIDTH} width of the array
+	 */
+	private final int TERRAIN_TILES_WIDTH = 8;
+	/**
+	 * {@value TERRAIN_TILES_LENGTH} length of the array
+	 */
+	private final int TERRAIN_TILES_LENGTH = 5;
+	/**
+	 * {@value GRID_TILE_SIZE} size of each square tile
+	 */
+	private final int GRID_TILE_SIZE = 100;
 	
-	public Ground() {
-		
-	}
-	
-	public int[][] terrain() {
+	/**
+	 * @return terrain of the map, which is a flat plain with a wall in the middle
+	 */
+	public int[][] getTerrain() {
 		return this.terrain;
 	}
 	
-	public void draw(Graphics g, DrawingPanel panel) throws IOException {
-		System.out.println(terrain[0][0]);
-		
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 8; j++) {
-				//System.out.print(terrain[i][j] + " ");
+	/**
+	 * Draws the ground by by drawing tiles whenever there's a 1 in the 2D array.
+	 * 
+	 * @param g Graphics to draw with
+	 * @param panel DrawingPanel to draw on
+	 * @throws IOException
+	 */
+	public void draw(Graphics g, DrawingPanel panel) throws IOException {		
+		for (int i = 0; i < TERRAIN_TILES_LENGTH; i++) {
+			for (int j = 0; j < TERRAIN_TILES_WIDTH; j++) {
 				if (terrain[i][j] != 0) {
-					GridTile tile4 = new GridTile(100*j, 100*i, 1, panel, g);
-					tile4.draw(g);
-					//System.out.println("nonzero: " + "i: " + i + " j: " + j);
-				} else {
-					//System.out.println("zero: " + "i: " + i + " j: " + j);
+					GridTile tile = new GridTile(GRID_TILE_SIZE*j, GRID_TILE_SIZE*i);
+					tile.draw(g);
 				}
-				
-				/*
-				if (terrain[i][j] == 0) {
-					
-				} else if (terrain[i][j] == 1) {
-					GridTile tile1 = new GridTile(100*i, 100*j, 1, panel, g);
-					tile1.draw(g);
-				} else if (terrain[i][j] == 2) {
-					GridTile tile2 = new GridTile(100*i, 100*j, 2, panel, g);
-					tile2.draw(g);
-				} else if (terrain[i][j] == 3) {
-					GridTile tile3 = new GridTile(100*i, 100*j, 3, panel, g);
-					tile3.draw(g);
-				} 
-				*/
 			}
-			//System.out.println("<--"+i);
 		}
 	}
 }
