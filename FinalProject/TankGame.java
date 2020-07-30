@@ -4,21 +4,20 @@
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
-
+import java.applet.*;
+import java.net.*;
 
 public class TankGame {
-	private ArrayList<Object> itemsToDraw = new ArrayList<>();
-	
+	private DrawingPanel panel;
 	private final static int WIDTH = 800;
 	private final static int HEIGHT = 500;
+	private int hitsLeft = 3;
 	/**
 	 * The main of this function with the while loop that draws everything.
 	 * 
@@ -33,13 +32,11 @@ public class TankGame {
 	    panel.setBackground(Color.WHITE);
 	    
 	    Tank t1 = new Tank(g);
-	    Projectile p1 = new Projectile(30,400,45,10);
-	    TileKeyListener listener = new TileKeyListener(panel, t1, g, p1);
+	    Projectile p1 = new Projectile();
+	    TileKeyListener listener = new TileKeyListener(t1, g, p1);
 		panel.addKeyListener(listener);
 		
-		Target target = new Target();
-		
-		//target.setTargetClip(g);
+		Target target = new Target(g);
 
 		Ground ground = new Ground();
 		
@@ -55,9 +52,14 @@ public class TankGame {
        	 	       	 	
        	 	
        	 	if (!target.collides(p1)) {
-       	 		target.draw(g);
+       	 		target.draw();
        	 	} else {
-       	 		target.clear(g);
+       	 		p1.clear(g);
+       	 		p1.setX(1000);
+       	 		System.out.println("Hit!");
+       	 		AudioPlayer player = new AudioPlayer();
+       	 		player.playSound("/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Ding.wav");
+       	 		target.clear();
        	 	}
        	 	
        	 	p1.checkGround(g);
@@ -77,16 +79,15 @@ public class TankGame {
        	 	g.setColor(Color.WHITE);
 
        	 	p1.clear(g);
-       	 	//t1.clear();
+       	 	t1.clear();
 		}
 	}
 	
-		/** A class for responding to key presses on the drawing panel.
-		 * 
+		/** 
+		 * A class for responding to key presses on the drawing panel.
 	    */
 	   public static class TileKeyListener extends KeyAdapter 
 	   {
-	      private DrawingPanel panel;
 	      private Tank t;
 	      private Graphics g;
 	      private Projectile p1;
@@ -98,9 +99,8 @@ public class TankGame {
 	       * @param g Graphics
 	       * @param p1 Projectile that's being drawn
 	       */
-	      public TileKeyListener(DrawingPanel panel, Tank t, Graphics g, Projectile p1) 
+	      public TileKeyListener(Tank t, Graphics g, Projectile p1) 
 	      {
-	         this.panel = panel;
 	         this.t = t;
 	         this.g = g;
 	         this.p1 = p1;

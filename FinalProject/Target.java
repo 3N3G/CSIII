@@ -7,11 +7,13 @@ public class Target {
 	private int x;
 	private int y;
 	private int hitCount;
+	private Graphics g;
 	
-	public Target() {
+	public Target(Graphics g) {
 		x = 690;
 		y = 380;
 		hitCount = 0;
+		this.g = g;
 	}
 	
 	/**
@@ -23,8 +25,8 @@ public class Target {
 	public boolean collides(Projectile p) {
 		
 		if (this.getShape().getBounds2D().intersects(p.getShape().getBounds2D())) {
-			hitCount++;
 			System.out.println("Hit");
+			hitCount++;
 			return true;
 		}
 		return false;
@@ -35,19 +37,26 @@ public class Target {
 	 * 
 	 * @param g
 	 */
-	public void draw(Graphics g) {
+	public void draw() {
 		if (hitCount < 10) {
 			g.setColor(Color.RED);
 			g.fillRect(x, y, 20, 20);
 		}
 	}
 	
-	public void clear(Graphics g) {
+	/**
+	 * Clears the Target, by drawing white over it
+	 * @param g 
+	 */
+	public void clear() {
 		g.setColor(Color.WHITE);
 		g.fillRect(x-1,y-1,22,22);
 	}
 	
-	
+	/**
+	 * Returns the rectangle as the border of the target
+	 * @return a 20x20 square with top left coordinate x,y
+	 */
 	public Shape getShape() {
 		return new Rectangle(x,y,20,20);
 	}

@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.util.*;
 import java.io.*;
+import java.applet.*;
+import java.net.*;
+import javax.sound.sampled.*;
 
 public class Projectile{
 	private double x;
@@ -11,13 +14,17 @@ public class Projectile{
 	private ArrayList<Projectile> bullets = new ArrayList<>();
 	
 	
-	public Projectile(double initX, double initY, int angle, int power) {
-		this.x = initX;
-		this.y = initY;
-		this.dX = Math.cos((double)angle*Math.PI/180) * power / 10;
-		this.dY = Math.sin((double)angle*Math.PI/180) * power / 10;
-		bullets.add(this);
+	public Projectile() {
 	}
+	
+	/**
+	 * Sets the x coordinate of the projectile. Used to get rid of the projectile.
+	 * @param x value to set it
+	 */
+	public void setX(int x) {
+		this.x = x;
+	}
+	
 	
 	/**
 	 * @return current x value of the projectile
@@ -51,6 +58,8 @@ public class Projectile{
 	 * @param power
 	 */
 	public void reset(double initX, double initY, int angle, int power, Graphics g) {
+		AudioPlayer player = new AudioPlayer();
+		player.playSound("/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Shot.wav");
 		this.clear(g);
 		
 		this.exists = true;
@@ -110,7 +119,11 @@ public class Projectile{
 			int squareY = (int) (this.y/100.0);
 			
 			if (new Ground().terrain()[squareY][squareX] != 0) {
-				this.clear(g);
+			    //Play the explosion sound
+				AudioPlayer player = new AudioPlayer();
+			    player.playSound("/Users/geneyang/Documents/workspace/CSIIIFinalProject/src/Explosion+5.wav");
+
+			    this.clear(g);
 				exists = false;
 				this.x = 900;
 				bullets.remove(this);

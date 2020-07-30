@@ -11,6 +11,11 @@ public class DirectionLine {
 	
 // Constructor taking in x, y, power, angle
 // draw 
+	/**
+	 * This constructor 
+	 * @param t
+	 * @param g
+	 */
 	public DirectionLine(Tank t, Graphics g) {
 		this.x = (int) t.getX();
 		this.y = (int) t.getY();
